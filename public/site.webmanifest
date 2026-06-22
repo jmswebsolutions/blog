@@ -1,0 +1,9 @@
+{
+  "name": "Blog JMS Web Solutions",
+  "short_name": "JMS Blog",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f7f4ef",
+  "theme_color": "#101820",
+  "description": "Programming, React, and JavaScript learning notes."
+}
