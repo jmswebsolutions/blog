@@ -1,42 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import {
   ArrowUpRight,
-  BookOpenText,
   CalendarDays,
-  Code2,
   Github,
-  GraduationCap,
   Layers3,
   Mail,
   Menu,
   Rocket,
   Search,
   Sparkles,
-  Target,
+  Clock,
 } from 'lucide-react';
-import { posts } from './data/posts';
+import { loadPosts } from './utils/loadPosts';
+import PostPage from './components/PostPage';
 import './styles.css';
 
-const featuredPost = posts[0];
-const recentPosts = posts.slice(1);
+function HomePage() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-function App() {
+  useEffect(() => {
+    loadPosts().then(setPosts).finally(() => setLoading(false));
+  }, []);
+
+  const featuredPost = posts[0];
+  const recentPosts = posts.slice(1);
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
   return (
     <>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="Blog JMS Web Solutions">
+        <Link to="/" className="brand" aria-label="Blog JMS Web Solutions">
           <span className="brand-mark">J</span>
           <span>
             <strong>JMS Blog</strong>
             <small>React, JavaScript and career</small>
           </span>
-        </a>
+        </Link>
 
         <nav className="nav-links" aria-label="Main navigation">
-          <a href="#posts">Posts</a>
-          <a href="#path">Path</a>
-          <a href="#about">About</a>
+          <Link to="/">Home</Link>
+          <Link to="#posts">Posts</Link>
+          <Link to="#about">About</Link>
         </nav>
 
         <a className="icon-button" href="https://github.com/" aria-label="GitHub">
@@ -61,48 +71,12 @@ function App() {
               React, front-end development, and web projects.
             </p>
             <div className="hero-actions">
-              <a className="primary-action" href="#posts">
+              <Link to="#posts" className="primary-action">
                 Read posts
                 <ArrowUpRight size={18} />
-              </a>
-              <a className="secondary-action" href="#path">
-                View path
-              </a>
+              </Link>
             </div>
           </div>
-
-          <div className="hero-visual" aria-label="Visual panel with code and study progress">
-            <div className="code-window">
-              <div className="window-controls" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <pre>
-                <code>{`const jonatan = {
-  role: "Full-Stack Developer",
-  tech: ["JavaScript", "React", "Node.js"],
-  goals: "Get my first developer job",
-  mindset: "Consistency > motivation 🚀"
-};
-
-export default jonatan;`}</code>
-              </pre>
-            </div>
-            <div className="progress-panel">
-              <span>Current plan</span>
-              <strong>Strong fundamentals</strong>
-              <div className="progress-track">
-                <span />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="metrics-band" aria-label="Blog summary">
-          <Metric icon={<BookOpenText size={22} />} value="03" label="starter posts" />
-          <Metric icon={<Code2 size={22} />} value="React" label="main focus" />
-          <Metric icon={<Target size={22} />} value="Daily" label="continuous learning" />
         </section>
 
         <section className="content-section" id="posts">
@@ -115,21 +89,31 @@ export default jonatan;`}</code>
           </div>
 
           <article className="featured-post">
+            {featuredPost.image && (
+              <div className="featured-image">
+                <img src={featuredPost.image} alt={featuredPost.title} />
+              </div>
+            )}
             <div>
               <span className="post-category">{featuredPost.category}</span>
               <h3>{featuredPost.title}</h3>
               <p>{featuredPost.excerpt}</p>
               <PostMeta post={featuredPost} />
             </div>
-            <a href={`#${featuredPost.slug}`} className="read-link">
+            <Link to={`/post/${featuredPost.slug}`} className="read-link">
               Read feature
               <ArrowUpRight size={18} />
-            </a>
+            </Link>
           </article>
 
           <div className="post-grid">
             {recentPosts.map((post) => (
-              <article className="post-card" id={post.slug} key={post.slug}>
+              <article className="post-card" key={post.slug}>
+                {post.image && (
+                  <div className="card-image">
+                    <img src={post.image} alt={post.title} />
+                  </div>
+                )}
                 <span className="post-category">{post.category}</span>
                 <h3>{post.title}</h3>
                 <p>{post.excerpt}</p>
@@ -139,25 +123,12 @@ export default jonatan;`}</code>
                     <span key={tag}>{tag}</span>
                   ))}
                 </div>
+                <Link to={`/post/${post.slug}`} className="read-link">
+                  Read more
+                  <ArrowUpRight size={18} />
+                </Link>
               </article>
             ))}
-          </div>
-        </section>
-
-        <section className="learning-section" id="path">
-          <div className="section-heading">
-            <p className="eyebrow">
-              <GraduationCap size={16} />
-              Growth roadmap
-            </p>
-            <h2>My path to improve with consistency.</h2>
-          </div>
-
-          <div className="timeline">
-            <LearningStep title="Fundamentals" text="Semantic HTML, responsive CSS, modern JavaScript, and Git." />
-            <LearningStep title="React in practice" text="Components, state, props, hooks, routes, and API consumption." />
-            <LearningStep title="Real projects" text="Publish studies, fix mistakes, document decisions, and improve UX." />
-            <LearningStep title="Career" text="Build a portfolio, write about lessons learned, and develop professional rhythm." />
           </div>
         </section>
 
@@ -184,40 +155,42 @@ export default jonatan;`}</code>
   );
 }
 
-function Metric({ icon, value, label }) {
-  return (
-    <div className="metric">
-      {icon}
-      <strong>{value}</strong>
-      <span>{label}</span>
-    </div>
-  );
-}
-
 function PostMeta({ post }) {
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZoneName: 'short'
+    };
+    return date.toLocaleDateString('pt-BR', options);
+  };
+
   return (
     <div className="post-meta">
       <span>
         <CalendarDays size={16} />
-        {post.date}
+        {formatDate(post.date)}
       </span>
       <span>
-        <Layers3 size={16} />
+        <Clock size={16} />
         {post.readTime}
       </span>
     </div>
   );
 }
 
-function LearningStep({ title, text }) {
+function App() {
   return (
-    <article className="timeline-step">
-      <span />
-      <div>
-        <h3>{title}</h3>
-        <p>{text}</p>
-      </div>
-    </article>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/post/:slug" element={<PostPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
