@@ -20,6 +20,7 @@ import './styles.css';
 function HomePage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     loadPosts().then(setPosts).finally(() => setLoading(false));
@@ -30,6 +31,10 @@ function HomePage() {
 
   if (loading) {
     return <div className="loading">Loading...</div>;
+  }
+
+  if (posts.length === 0) {
+    return <div className="loading">No posts found</div>;
   }
 
   return (
@@ -43,17 +48,17 @@ function HomePage() {
           </span>
         </Link>
 
-        <nav className="nav-links" aria-label="Main navigation">
-          <Link to="/">Home</Link>
-          <Link to="#posts">Posts</Link>
-          <Link to="#about">About</Link>
+        <nav className={`nav-links ${menuOpen ? 'nav-open' : ''}`} aria-label="Main navigation">
+          <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="#posts" onClick={() => setMenuOpen(false)}>Posts</Link>
+          <Link to="#about" onClick={() => setMenuOpen(false)}>About</Link>
         </nav>
 
         <a className="icon-button" href="https://github.com/jmswebsolutions/" aria-label="GitHub">
           <Github size={19} />
         </a>
 
-        <button className="menu-button" aria-label="Open menu">
+        <button className="menu-button" aria-label="Open menu" onClick={() => setMenuOpen(!menuOpen)}>
           <Menu size={20} />
         </button>
       </header>

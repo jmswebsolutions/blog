@@ -17,19 +17,21 @@ export async function loadPosts() {
 }
 
 function parsePost(content, path) {
-  // Extract frontmatter (YAML between ---)
-  const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  // Extract frontmatter (YAML between ---) - simple split approach
+  const parts = content.split('---');
   
-  if (!frontmatterMatch) {
+  if (parts.length < 3) {
     console.warn(`No frontmatter found in ${path}`);
+    console.warn('Content preview:', content.substring(0, 200));
     return null;
   }
 
-  const [, frontmatter, body] = frontmatterMatch;
+  const frontmatter = parts[1].trim();
+  const body = parts.slice(2).join('---').trim();
   const metadata = {};
 
   // Parse simple YAML-like frontmatter
-  frontmatter.split('\n').forEach(line => {
+  frontmatter.split(/\r?\n/).forEach(line => {
     const match = line.match(/^(\w+):\s*(.*)$/);
     if (match) {
       const [, key, value] = match;
