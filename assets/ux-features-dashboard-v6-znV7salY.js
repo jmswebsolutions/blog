@@ -61,8 +61,8 @@ The dashboard now includes:
 ✅ Improved UX with clear visual states
 ✅ Clean, error-free build
 
-🔗 GitHub: https://lnkd.in/dW8wyzpU
-🌐 Live Demo: https://lnkd.in/d4AQkCiZ
+🔗 [GitHub](https://github.com/jmswebsolutions/Project-AI-Tech-Dashboard)
+🌐 [Live Demo](https://jmswebsolutions.com.br/Project-AI-Tech-Dashboard/)
 
 #React #TypeScript #WebDevelopment #Frontend #UX #StateManagement #LocalStorage #Learning #TechSkills
 `;export{e as default};
