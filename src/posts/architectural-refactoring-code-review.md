@@ -55,7 +55,7 @@ This improves cohesion and reduces unnecessary abstraction.
 - Architecture is about abstractions, not folders
 - Code reviews are extremely valuable — embrace feedback
 
-🔗 GitHub: https://lnkd.in/dW8wyzpU
-🌐 Live Demo: https://lnkd.in/d4AQkCiZ
+🔗 [GitHub](https://github.com/jmswebsolutions/Project-AI-Tech-Dashboard)
+🌐 [Live Demo](https://jmswebsolutions.com.br/Project-AI-Tech-Dashboard/)
 
 #SoftwareEngineering #Architecture #React #TypeScript #CodeReview #Refactoring #CleanCode #Performance

@@ -125,6 +125,7 @@ body {
   font-size: 1.15rem;
   line-height: 1.8;
   color: #2d3748;
+  padding: 0 clamp(20px, 5vw, 40px);
 }
 
 .post-content h1,
@@ -164,6 +165,28 @@ body {
 
 .post-content a:hover {
   color: var(--teal);
+}
+
+.post-content ul {
+  margin: 24px 0;
+  padding-left: 24px;
+  list-style: none;
+}
+
+.post-content ul li {
+  margin-bottom: 12px;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.7;
+}
+
+.post-content ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 a {
@@ -421,7 +444,35 @@ h3 {
 }
 
 .post-card {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-card > *:not(.card-image) {
   padding: 26px;
+}
+
+.post-card .tag-list {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.post-card .read-link {
+  margin-top: 16px;
 }
 
 .post-card h3 {

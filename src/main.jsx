@@ -49,7 +49,7 @@ function HomePage() {
           <Link to="#about">About</Link>
         </nav>
 
-        <a className="icon-button" href="https://github.com/" aria-label="GitHub">
+        <a className="icon-button" href="https://github.com/jmswebsolutions/" aria-label="GitHub">
           <Github size={19} />
         </a>
 

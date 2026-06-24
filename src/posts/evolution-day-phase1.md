@@ -57,8 +57,8 @@ Now we have real separation of concerns!
 - Domain Layer implemented ✅
 
 **🔗 Check it out:**
-Live Demo: https://lnkd.in/dkMMHsrs
-GitHub: https://lnkd.in/dW8wyzpU
+[🌐 Live Demo](https://jmswebsolutions.com.br/Project-AI-Tech-Dashboard/)
+[🔗 GitHub](https://github.com/jmswebsolutions/Project-AI-Tech-Dashboard)
 
 Next step: Phase 2 (Authentication, Analytics, Reading Mode). Any suggestions on which to prioritize?
 

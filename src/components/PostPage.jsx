@@ -61,6 +61,10 @@ function PostPage() {
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
       // Links
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+      // Bullet points (convert - to li)
+      .replace(/^- (.*$)/gim, '<li>$1</li>')
+      // Wrap consecutive li in ul
+      .replace(/(<li>.*<\/li>\n?)+/g, match => `<ul>${match}</ul>`)
       // Line breaks
       .replace(/\n\n/g, '</p><p>')
       .replace(/\n/g, '<br />');
